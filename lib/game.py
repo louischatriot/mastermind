@@ -12,20 +12,32 @@ class Game():
         self.try_count = 0
         self.success = False
 
+
     def test(self, answer):
         self.try_count += 1
 
-        ok = [c == answer[i] for i, c in enumerate(self.target)].count(True)
-        near = - ok
-        for c in self.target:
-            if c in answer:
-                near += 1
-                answer.remove(c)
+        used = [False] * len(self.target)
+        res = [""] * len(self.target)
 
-        if ok == len(self.target):
-            self.success = True
+        for i, c in enumerate(self.target):
+            if c == answer[i]:
+                res[i] = "B"
+                used[i] = True
 
-        return ok, near
+        for i, c in enumerate(answer):
+            if res[i] == "B":
+                continue
+
+            try:
+                idx = [c if not used[i] else "" for i, c in enumerate(self.target)].index(c)
+            except ValueError:
+                continue
+
+            if idx:
+                res[i] = "W"
+                used[idx] = True
+
+        return res
 
 
 
