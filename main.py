@@ -28,15 +28,14 @@ while True:
     print("                                      Available colors: " + "  ".join(colors))
 
     if game.success:
-        print(game.try_count)
         print(f"Game won in {game.try_count} moves")
         break
 
-
-    print(game.try_count)
     t = input("Your move: ")
-    t = list(t)
+    if not game.is_legal_raw_input(t):
+        continue
 
+    t = list(t)
     tries = [t] + tries
     tests = [game.test(t)] + tests
 

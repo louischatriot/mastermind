@@ -30,5 +30,16 @@ class Game():
 
         return ok, near
 
+    # answer as raw input
+    def is_legal_raw_input(self, answer):
+        for c in answer:
+            if c not in self.colors:
+                return False
+
+        if len(answer) != len(self.target):
+            return False
+
+        return True
+
 
 
