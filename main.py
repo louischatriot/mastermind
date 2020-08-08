@@ -8,14 +8,15 @@ from termcolor import colored
 game = Game(4, 6)
 
 tries = []
+tests = []
 
 
 while True:
     clear()
 
-    for l in tries:
-        ok, near = game.test(l)
-        res = ["\u25cf"] * ok + ["\u25cb"] * near + [" "] * (len(game.target) - ok - near)
+    for i, l in enumerate(tries):
+        ok, near = tests[i]
+        res = ["\u25cf"] * ok + ["\u25d0"] * near + ["\u25cb"] * (len(game.target) - ok - near)
         line = "  ".join(res) + "    -    " + "  ".join([colored("\u25cf", color_names[it]) for it in l])
         print(line)
         print("")
@@ -26,10 +27,18 @@ while True:
 
     print("                                      Available colors: " + "  ".join(colors))
 
+    if game.success:
+        print(game.try_count)
+        print(f"Game won in {game.try_count} moves")
+        break
+
+
+    print(game.try_count)
     t = input("Your move: ")
     t = list(t)
 
     tries = [t] + tries
+    tests = [game.test(t)] + tests
 
 
 
